@@ -9,3 +9,4 @@ pyxdf==1.16.5
 matplotlib==3.8.2
 pynput==1.7.6
 setuptools==69.0.3
+websockets==12.0

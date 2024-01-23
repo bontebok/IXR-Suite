@@ -11,7 +11,7 @@ from pylsl import StreamInfo, StreamOutlet, cf_double64
 from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 from scipy.signal import welch # implement
 from scipy.signal import butter, filtfilt
-
+from ixr_flow.websocketserver import WebSocketServer
 
 @dataclass
 class Channel:
@@ -117,8 +117,12 @@ class IXRDashboard(Thread):
                                    channel_format=cf_double64, source_id='ixrflow_transmit_spectral_power')
         self.outlet_transmit_spectrum = StreamOutlet(info_transmit_spectrum)
         logging.info(f"'{self.outlet_transmit_spectrum.get_info().name()}' Power Metric stream started.")
+        
+        # Websocket server
+        self.websocketserver = WebSocketServer()
 
     def run(self):
+        self.websocketserver.start()
         self.app = QtWidgets.QApplication([])
         self.win = pg.GraphicsLayoutWidget(show=True, title='IXR-flow', size=(1500, 1000));
 
@@ -536,5 +540,9 @@ class IXRDashboard(Thread):
         #print(self.power_metrics[0])
         self.outlet_transmit.push_sample([self.power_metrics[0]])
         self.outlet_transmit_spectrum.push_sample(avg_bands)
+
+        #send over websocket
+        self.websocketserver.send("power,{0}".format(str(self.power_metrics[0])))
+        self.websocketserver.send("avg_bands,{0}".format(",".join([str(i) for i in avg_bands])))
 
         self.app.processEvents()

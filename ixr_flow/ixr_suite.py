@@ -65,7 +65,7 @@ class IXRSuite():
         self.boardidEnt["font"] = ft
         self.boardidEnt["fg"] = "#264653"
         self.boardidEnt["justify"] = "center"
-        self.boardidEnt.insert(tk.END, '39')
+        self.boardidEnt.insert(tk.END, '38')
         #self.boardidEnt["textvariable"] = self.text_boardid
         self.boardidEnt.place(x=250, y=80, width=70, height=25)
 
@@ -77,7 +77,7 @@ class IXRSuite():
         boardidLabel["justify"] = "center"
         boardidLabel["text"] = "board ID"
         boardidLabel.place(x=40, y=80, width=200, height=25)
-        self.CreateToolTip(boardidLabel, text='Muse 2 is 38, Muse S is 39, Muse 2016 is 41, BrainBit is 7 (default = 39)')
+        self.CreateToolTip(boardidLabel, text='Muse 2 is 38, Muse S is 39, Muse 2016 is 41, BrainBit is 7 (default = 38)')
 
     def create_timeout_input(self, root):
         self.timeoutEnt = tk.Entry(root)
